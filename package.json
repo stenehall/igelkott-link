@@ -1,7 +1,7 @@
 {
   "name": "igelkott-link",
   "description": "A very simple link plugin for Igelkott",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "igelkott-link.js",
   "dependencies": {
     "follow-redirects": "*"
