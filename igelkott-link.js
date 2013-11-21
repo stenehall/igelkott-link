@@ -1,6 +1,6 @@
 var http = require("follow-redirects").http,
-    https = require('follow-redirects').https,
-    url = require('url');
+https = require('follow-redirects').https,
+url = require('url');
 
 var Link = function Link() {
   this.listeners = {'PRIVMSG': this.talk, 'link:200': this._200};
@@ -27,14 +27,8 @@ Link.prototype.talk = function talk(message) {
   if (matches)
   {
     var parts= url.parse(matches[0]);
-    if(parts.protocol == 'http:')
-    {
-      http.get({ hostname: parts.hostname, path: parts.path }, this.parseRequest.bind(this, message));
-    }
-    else
-    {
-      https.get({ hostname: parts.hostname, path: parts.path }, this.parseRequest.bind(this, message));
-    }
+    var transport = (parts.protocol === 'http:') ? http : https;
+    transport.get({ hostname: parts.hostname, path: parts.path }, this.parseRequest.bind(this, message));
   }
 };
 

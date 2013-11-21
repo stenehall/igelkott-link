@@ -1,6 +1,5 @@
 var assert = require('chai').assert,
 Stream = require('stream'),
-nock = require('nock'),
 
 Igelkott = require('igelkott'),
 Link = require('../igelkott-link.js').Plugin;
@@ -20,7 +19,7 @@ describe('Link', function() {
       "server": {
         "nick": "igelkott",
       },
-      plugins:['privmsg'],
+      core:['privmsg'],
       'adapter': s, 'connect': function() { this.server.emit('connect'); }
     };
 
@@ -31,7 +30,7 @@ describe('Link', function() {
   it('Should respond with googles title, i.e. Google', function(done) {
     this.timeout(5000); // DB queries are slow
 
-    igelkott.plugin.load('link', Link);
+    igelkott.plugin.load('link', {}, Link);
 
     s.on('data', function(data) {
       if(data == "PRIVMSG ##botbotbot :title: Google\r\n")
@@ -47,7 +46,7 @@ describe('Link', function() {
   it('Should not respond with a title on 404', function(done) {
 
     this.timeout(5000);
-    igelkott.plugin.load('link', Link);
+    igelkott.plugin.load('link', {}, Link);
 
     igelkott.on('link:404', function() {
       done();
